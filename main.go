@@ -8,6 +8,8 @@ import (
 	redisrepositoryv1 "github.com/muhammadisa/nobita/repository/v1/redis"
 	routeversion "github.com/muhammadisa/nobita/route"
 	authroutev1 "github.com/muhammadisa/nobita/route/v1/auth"
+	fooroutev1 "github.com/muhammadisa/nobita/route/v1/foo"
+
 	authusecasev1 "github.com/muhammadisa/nobita/usecase/v1/auth"
 	"github.com/muhammadisa/nobita/util/dbc"
 	"github.com/muhammadisa/nobita/util/otp"
@@ -61,6 +63,7 @@ func main() {
 
 	endpoint.NewEndpoint(router, routeversion.Versions{
 		RouteAuthV1: authroutev1.NewAuthRouteV1(authusecasev1.NewAuthUseCaseV1(authRepo, senderConfig)),
+		RouteFooV1:  fooroutev1.NewFooRouteV1(),
 	})
 
 	err = router.Run(":8080")

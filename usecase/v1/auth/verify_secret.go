@@ -39,6 +39,7 @@ func (u usecase) VerifySecret(ctx context.Context, secret auth.Secret) (auth.Ver
 	j := jwt.NewJWTGenerateMode(60*time.Minute, "SECRET")
 	data, err := j.Generate(map[string]string{
 		"user_id":  fmt.Sprintf("%d", account.ID),
+		"role_id":  fmt.Sprintf("%d", account.RoleID),
 		"timezone": "Asia/Jakarta",
 		"time":     time.Now().String(),
 	})

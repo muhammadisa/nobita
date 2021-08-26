@@ -6,31 +6,31 @@ import (
 	"github.com/muhammadisa/nobita/util/dbtrx"
 )
 
-func (r *rw) ReadFeature(ctx context.Context, roleID int64) (*feature.Feature, error) {
+func (r *rw) ReadFeature(ctx context.Context, roleID int64, name string)  error {
 	tx, err := r.db.Begin()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer dbtrx.Trx(tx, err)
 
 	var featr feature.Feature
-	const query = `SELECT * FROM features WHERE role_id = ?`
+	const query = `SELECT * FROM features WHERE role_id = ? AND name = ?`
 	stmt, err := tx.Prepare(query)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	mutex.Lock()
-	rows, err := stmt.QueryContext(ctx, roleID)
+	rows, err := stmt.QueryContext(ctx, roleID, name)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	mutex.Unlock()
 	for rows.Next() {
-		err = rows.Scan(featr.FastScan())
+		err = rows.Scan(featr.FastScan()...)
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
-	return &featr, nil
+	return nil
 }
 

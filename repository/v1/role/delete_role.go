@@ -2,6 +2,6 @@ package role
 
 import "context"
 
-func (r rw) DeleteRole(ctx contecxt.Context, id int64) error {
+func (r rw) DeleteRole(ctx context.Context, id int64) error {
 	panic("implement me")
 }

@@ -16,4 +16,5 @@ type RW interface {
 	UpdateLoginStatus(context.Context, int64, bool) error
 	VerifyTempSecret(context.Context, auth.Secret) (auth.Account, error)
 	UpdateTempSecret(context.Context, int64, string) error
+
 }

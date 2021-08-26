@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/muhammadisa/nobita/endpoint"
 	authrepositoryv1 "github.com/muhammadisa/nobita/repository/v1/auth"
+	featurerepositoryv1 "github.com/muhammadisa/nobita/repository/v1/feature"
 	redisrepositoryv1 "github.com/muhammadisa/nobita/repository/v1/redis"
 	routeversion "github.com/muhammadisa/nobita/route"
 	authroutev1 "github.com/muhammadisa/nobita/route/v1/auth"
@@ -61,7 +62,12 @@ func main() {
 		panic(err)
 	}
 
-	endpoint.NewEndpoint(router, routeversion.Versions{
+	featureRepo, err := featurerepositoryv1.NewFeatureRepo(mysqlConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	endpoint.NewEndpoint(router, featureRepo, routeversion.Versions{
 		RouteAuthV1: authroutev1.NewAuthRouteV1(authusecasev1.NewAuthUseCaseV1(authRepo, senderConfig)),
 		RouteFooV1:  fooroutev1.NewFooRouteV1(),
 	})

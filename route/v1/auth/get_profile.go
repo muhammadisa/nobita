@@ -13,7 +13,7 @@ func (r route) GetProfile() (string, gin.HandlerFunc) {
 		if !ok {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": errors.New("user id not passed from middleware")})
 		}
-		profile, err := r.UseCase.MyProfile(c, int64(userID.(int)))
+		profile, err := r.UseCase.MyProfile(c, userID.(int64))
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		}

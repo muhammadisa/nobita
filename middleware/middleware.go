@@ -22,7 +22,7 @@ func RoleAccessibleMiddleware(featureRepo featurerepositoryv1.RW) gin.HandlerFun
 			c.JSON(http.StatusInternalServerError, gin.H{"error": errors.New("role id not passed from middleware")})
 		}
 
-		err := featureRepo.ReadFeature(c, int64(roleID.(int)), c.FullPath())
+		err := featureRepo.ReadFeature(c, roleID.(int64), c.FullPath())
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			return
@@ -41,13 +41,13 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		id, err := strconv.Atoi(keys[UserID])
+		id, err := strconv.ParseInt(keys[UserID], 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "user id not passed"})
 			return
 		}
 
-		roleID, err := strconv.Atoi(keys[RoleID])
+		roleID, err := strconv.ParseInt(keys[RoleID], 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "role id not passed"})
 			return

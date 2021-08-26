@@ -21,7 +21,7 @@ func (r route) UpdateProfile() (string, gin.HandlerFunc) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		json.AccountID = int64(userID.(int))
+		json.AccountID = userID.(int64)
 
 		err = r.UseCase.EditProfile(c, json)
 		if err != nil {

@@ -15,12 +15,12 @@ func (r route) PostVerifySecret() (string, gin.HandlerFunc) {
 			return
 		}
 
-		auth, err := r.UseCase.VerifySecret(c, json)
+		verifyResult, err := r.UseCase.VerifySecret(c, json)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusCreated, gin.H{"auth": auth})
+		c.JSON(http.StatusCreated, gin.H{"auth": verifyResult})
 	}
 }
